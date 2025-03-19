@@ -62,15 +62,14 @@ def index_document_to_chroma(file_path: str, file_id: int) -> bool:
 
 def delete_doc_from_chroma(file_id: int):
     try:
-        docs = vectorstore._collection.get(include=["metadata"])
-        matched_ids = [
-            doc_id for doc_id, metadata in zip(docs["ids"], docs["metadatas"]) if metadata.get("file_id") == file_id
-        ]
-        vectorstore._collection.delete(ids=matched_ids)
+        docs = vectorstore.get(where={"file_id": file_id})
+        print(f"Found {len(docs['ids'])} document chunks for file_id {file_id}")
+        vectorstore._collection.delete(where={"file_id": file_id})
+
         print(f"Deleted all documents with file_id {file_id}")
         return True
-    
+
     except Exception as e:
         print(f"Error deleting document with file_id {file_id} from Chroma: {str(e)}")
-        
+
         return False

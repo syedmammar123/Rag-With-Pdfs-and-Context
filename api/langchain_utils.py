@@ -10,11 +10,8 @@ from chroma_utils import vectorstore
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
-
-# Load environment variables from .env file
 load_dotenv()
 
-# Retrieve the API key securely
 api_key = os.getenv("GROQ_API_KEY")
 
 
@@ -51,7 +48,6 @@ qa_prompt = ChatPromptTemplate.from_messages(
 )
 
 
-
 def get_rag_chain(model="llama-3.3-70b-versatile"):
 
     llm = ChatGroq(api_key=api_key,model=model)
@@ -62,3 +58,7 @@ def get_rag_chain(model="llama-3.3-70b-versatile"):
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
     return rag_chain
+
+def get_rag_llm(model="llama-3.3-70b-versatile"):
+    llm = ChatGroq(api_key=api_key, model=model)
+    return llm

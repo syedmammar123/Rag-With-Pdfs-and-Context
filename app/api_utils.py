@@ -10,7 +10,9 @@ def get_api_response(question, session_id, model):
 
     try:
         response = requests.post(
-            "http://localhost:8000/chat", headers=headers, json=data
+            "https://rag-with-pdfs-and-context.onrender.com/chat",
+            headers=headers,
+            json=data,
         )
         if response.status_code == 200:
             return response.json()
@@ -28,7 +30,9 @@ def upload_document(file):
     print("Uploading file...")
     try:
         files = {"file": (file.name, file, file.type)}
-        response = requests.post("http://localhost:8000/upload-doc", files=files)
+        response = requests.post(
+            "https://rag-with-pdfs-and-context.onrender.com/upload-doc", files=files
+        )
         if response.status_code == 200:
             return response.json()
         else:
@@ -43,7 +47,9 @@ def upload_document(file):
 
 def list_documents():
     try:
-        response = requests.get("http://localhost:8000/list-docs")
+        response = requests.get(
+            "https://rag-with-pdfs-and-context.onrender.com/list-docs"
+        )
         if response.status_code == 200:
             return response.json()
         else:
@@ -62,7 +68,9 @@ def delete_document(file_id):
 
     try:
         response = requests.post(
-            "http://localhost:8000/delete-doc", headers=headers, json=data
+            "https://rag-with-pdfs-and-context.onrender.com/delete-doc",
+            headers=headers,
+            json=data,
         )
         if response.status_code == 200:
             return response.json()
